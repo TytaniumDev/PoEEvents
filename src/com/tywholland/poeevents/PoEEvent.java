@@ -1,6 +1,4 @@
-package com.example.poeevents;
-
-import java.util.List;
+package com.tywholland.poeevents;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -9,13 +7,12 @@ import com.google.gson.annotations.SerializedName;
  * from the JSON object
  */
 public class PoEEvent {
-	private static final String TAG_EVENT_NAME = "id";
-	private static final String TAG_DESCRIPTION = "description";
-	private static final String TAG_WEB_LINK = "url";
-	private static final String TAG_REGISTER_TIME = "registerAt";
-	private static final String TAG_START_TIME = "startAt";
-	private static final String TAG_END_TIME = "endAt";
-	private static final String TAG_RULES = "rules";
+	public static final String TAG_EVENT_NAME = "id";
+	public static final String TAG_DESCRIPTION = "description";
+	public static final String TAG_WEB_LINK = "url";
+	public static final String TAG_REGISTER_TIME = "registerAt";
+	public static final String TAG_START_TIME = "startAt";
+	public static final String TAG_END_TIME = "endAt";
 
 	@SerializedName(TAG_EVENT_NAME)
 	private String name;
@@ -30,8 +27,6 @@ public class PoEEvent {
 	private String startTime;
 	@SerializedName(TAG_END_TIME)
 	private String endTime;
-	@SerializedName(TAG_RULES)
-	private List<PoEEventRule> rules;
 
 	public String getName() {
 		return name;

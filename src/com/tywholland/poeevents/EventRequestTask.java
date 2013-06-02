@@ -1,4 +1,4 @@
-package com.example.poeevents;
+package com.tywholland.poeevents;
 
 import java.lang.reflect.Type;
 import java.util.Collection;
@@ -10,10 +10,10 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-public class EventRequestTask extends AsyncTask<String, String, String>{
+public class EventRequestTask extends AsyncTask<String, String, List<PoEEvent>>{
 
 	@Override
-	protected String doInBackground(String... params) {
+	protected List<PoEEvent> doInBackground(String... params) {
 		JSONParser parser = new JSONParser();
 		String json = parser.getEventsJSON();
 		Gson gson = new Gson();
@@ -22,7 +22,13 @@ public class EventRequestTask extends AsyncTask<String, String, String>{
 		for (PoEEvent event : events) {
 			Log.i("POE", "Event name: " + event.getName());
 		}
-		return null;
+		return events;
+	}
+	
+	@Override
+	protected void onPostExecute(List<PoEEvent> result) {
+		// TODO Auto-generated method stub
+		super.onPostExecute(result);
 	}
 
 }

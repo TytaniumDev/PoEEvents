@@ -1,10 +1,10 @@
-package com.example.poeevents;
+package com.tywholland.poeevents;
 
-import android.app.Activity;
+import android.app.ListActivity;
 import android.os.Bundle;
 import android.view.Menu;
 
-public class MainActivity extends Activity {
+public class MainActivity extends ListActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
