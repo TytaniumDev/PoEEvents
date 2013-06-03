@@ -5,15 +5,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class SQLiteHelper extends SQLiteOpenHelper {
-	private static final int DATABASE_VERSION = 1;
+	private static final int DATABASE_VERSION = 3;
 	private static final String DATABASE_NAME = "events.db";
 	public static final String TABLE_EVENTS = "events";
-	private static final String COLUMN_ID = "_id";
 
 	private static final String DATABASE_CREATE = "create table "
-			+ TABLE_EVENTS + "(" + COLUMN_ID
-			+ " integer primary key autoincrement, " + PoEEvent.TAG_EVENT_NAME
-			+ " text not null, " + PoEEvent.TAG_DESCRIPTION
+			+ TABLE_EVENTS + "(_id integer, " + PoEEvent.TAG_EVENT_NAME
+			+ " text primary key not null, " + PoEEvent.TAG_DESCRIPTION
 			+ " text not null, " + PoEEvent.TAG_WEB_LINK + " text not null, "
 			+ PoEEvent.TAG_REGISTER_TIME + " text not null, "
 			+ PoEEvent.TAG_START_TIME + " text not null, "
