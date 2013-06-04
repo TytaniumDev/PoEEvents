@@ -52,4 +52,11 @@ public class PoEEventsDataSource {
 		String select = "SELECT * from " + SQLiteHelper.TABLE_EVENTS;
 		return database.rawQuery(select, null);
 	}
+	
+	public void deleteAllEvents() {
+		if (database == null) {
+			open();
+		}
+		database.delete(SQLiteHelper.TABLE_EVENTS, null, null);
+	}
 }
