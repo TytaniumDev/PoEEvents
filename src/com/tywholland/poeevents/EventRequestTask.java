@@ -8,7 +8,6 @@ import android.app.ListActivity;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.AsyncTask;
-import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.Log;
 import android.widget.ListView;
 
@@ -58,16 +57,7 @@ public class EventRequestTask extends
 		// Make cursor adapter
 		Cursor cursor = db.getAllEvents();
 		Log.i("POE", "got all events");
-		// The desired columns to be bound
-		String[] columns = new String[] { PoEEvent.TAG_EVENT_NAME,
-				PoEEvent.TAG_DESCRIPTION, PoEEvent.TAG_START_TIME,
-				PoEEvent.TAG_END_TIME };
-
-		// the XML defined views which the data will be bound to
-		int[] to = new int[] { R.id.event_name, R.id.event_description,
-				R.id.event_start_time, R.id.event_end_time, };
-		mListView.setAdapter(new SimpleCursorAdapter(mContext,
-				R.layout.event_listitem, cursor, columns, to, 0));
+		mListView.setAdapter(PoEUtil.getCursorAdapter(mContext, cursor));
 		Log.i("POE", "adapter set");
 
 		super.onPostExecute(result);

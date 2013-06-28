@@ -12,10 +12,10 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	private static final String DATABASE_CREATE = "create table "
 			+ TABLE_EVENTS + "(_id integer, " + PoEEvent.TAG_EVENT_NAME
 			+ " text primary key not null, " + PoEEvent.TAG_DESCRIPTION
-			+ " text not null, " + PoEEvent.TAG_WEB_LINK + " text not null, "
-			+ PoEEvent.TAG_REGISTER_TIME + " text not null, "
-			+ PoEEvent.TAG_START_TIME + " text not null, "
-			+ PoEEvent.TAG_END_TIME + " text not null);";
+			+ " text, " + PoEEvent.TAG_WEB_LINK + " text, "
+			+ PoEEvent.TAG_REGISTER_TIME + " text, "
+			+ PoEEvent.TAG_START_TIME + " text, "
+			+ PoEEvent.TAG_END_TIME + " text);";
 
 	public SQLiteHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);

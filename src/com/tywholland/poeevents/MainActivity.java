@@ -1,17 +1,20 @@
 package com.tywholland.poeevents;
 
 import android.app.ListActivity;
-import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.Menu;
+import android.widget.ProgressBar;
 
 public class MainActivity extends ListActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		getListView().setAdapter(null);
+		ProgressBar progressBar = new ProgressBar(this);
+		progressBar.setIndeterminate(true);
+		getListView().setEmptyView(progressBar);
+		PoEEventsDataSource db = new PoEEventsDataSource(this);
+		getListView().setAdapter(PoEUtil.getCursorAdapter(this, db.getAllEvents()));
 		new EventRequestTask().execute(this);
 	}
 
