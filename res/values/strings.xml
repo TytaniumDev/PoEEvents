@@ -3,6 +3,12 @@
 
     <string name="app_name">PoE Events</string>
     <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="error">ERROR</string>
+    <string name="event_name">Event Name</string>
+    <string name="begins">"Begins"</string>
+    <string name="ends">"Ends"</string>
+    <string name="no_forum_link">"No forum link yet"</string>
+    <string name="refresh">Refresh</string>
+    <string name="no_events">No Events</string>
 
 </resources>

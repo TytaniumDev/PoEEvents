@@ -8,16 +8,14 @@ import com.google.gson.annotations.SerializedName;
  */
 public class PoEEvent {
 	public static final String TAG_EVENT_NAME = "id";
-	public static final String TAG_DESCRIPTION = "description";
 	public static final String TAG_WEB_LINK = "url";
 	public static final String TAG_REGISTER_TIME = "registerAt";
 	public static final String TAG_START_TIME = "startAt";
 	public static final String TAG_END_TIME = "endAt";
+	public static final String TAG_UPDATED = "updated";
 
 	@SerializedName(TAG_EVENT_NAME)
 	private String name;
-	@SerializedName(TAG_DESCRIPTION)
-	private String description;
 	@SerializedName(TAG_WEB_LINK)
 	private String webLink;
 	// These should be some sort of time
@@ -27,6 +25,7 @@ public class PoEEvent {
 	private String startTime;
 	@SerializedName(TAG_END_TIME)
 	private String endTime;
+	private int updated;
 
 	public String getName() {
 		return name;
@@ -34,14 +33,6 @@ public class PoEEvent {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
 	}
 
 	public String getWebLink() {
@@ -74,5 +65,13 @@ public class PoEEvent {
 
 	public void setEndTime(String endTime) {
 		this.endTime = endTime;
+	}
+
+	public int getUpdated() {
+		return updated;
+	}
+
+	public void setUpdated(int updated) {
+		this.updated = updated;
 	}
 }

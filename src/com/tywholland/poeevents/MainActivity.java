@@ -1,28 +1,51 @@
 package com.tywholland.poeevents;
 
-import android.app.ListActivity;
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
-import android.widget.ProgressBar;
+import android.view.MenuItem;
+import android.view.MenuItem.OnMenuItemClickListener;
+import android.widget.ListView;
 
-public class MainActivity extends ListActivity {
+public class MainActivity extends Activity {
+	private ListView mListView;
+	private MenuItem mRefreshMenuItem;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		ProgressBar progressBar = new ProgressBar(this);
-		progressBar.setIndeterminate(true);
-		getListView().setEmptyView(progressBar);
+		setContentView(R.layout.poeevents_listview);
+		mListView = (ListView) findViewById(android.R.id.list);
+		mListView.setEmptyView(findViewById(android.R.id.empty));
 		PoEEventsDataSource db = new PoEEventsDataSource(this);
-		getListView().setAdapter(PoEUtil.getCursorAdapter(this, db.getAllEvents()));
-		new EventRequestTask().execute(this);
+		mListView.setAdapter(PoEUtil.getCursorAdapter(this, db.getAllEvents()));
+		startEventRequestTask();
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
+		mRefreshMenuItem = menu.findItem(R.id.refresh);
+		mRefreshMenuItem
+				.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+					@Override
+					public boolean onMenuItemClick(MenuItem item) {
+						startEventRequestTask();
+						return false;
+					}
+				});
+		startEventRequestTask();
 		return true;
+	}
+
+	private void startEventRequestTask() {
+		if (mRefreshMenuItem != null && mListView != null) {
+			// Everything is created
+			mRefreshMenuItem.setActionView(R.layout.menu_refresh);
+			EventRequestTask task = new EventRequestTask(this, mListView,
+					mRefreshMenuItem);
+			task.execute();
+		}
 	}
 
 	@Override

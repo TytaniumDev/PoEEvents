@@ -25,24 +25,36 @@ public class PoEEventsDataSource {
 		dbHelper.close();
 	}
 
-	public void insertEvents(List<PoEEvent> events) {
+	public void insertEventsAndClean(List<PoEEvent> events) {
+		// Insert events with updated field = 1. Events in the past will not be
+		// replaced, and their updated field will be 0. After insert/updating,
+		// remove all rows with updated = 0, and then update all rows and set
+		// updated = 0 so they can be cleaned during the next insert/update.
+		insertEvents(events);
+		deleteAllNonUpdatedEvents();
+		setAllEventsToNotUpdated();
+	}
+
+	private void insertEvents(List<PoEEvent> events) {
 		for (PoEEvent event : events) {
 			insertEvent(event);
 		}
 	}
 
-	public void insertEvent(PoEEvent event) {
+	private void insertEvent(PoEEvent event) {
 		if (database == null) {
 			open();
 		}
 		ContentValues values = new ContentValues();
 		values.put(PoEEvent.TAG_EVENT_NAME, event.getName());
-		values.put(PoEEvent.TAG_DESCRIPTION, event.getDescription());
 		values.put(PoEEvent.TAG_WEB_LINK, event.getWebLink());
 		values.put(PoEEvent.TAG_REGISTER_TIME, event.getRegisterTime());
 		values.put(PoEEvent.TAG_START_TIME, event.getStartTime());
 		values.put(PoEEvent.TAG_END_TIME, event.getEndTime());
-		database.insertWithOnConflict(SQLiteHelper.TABLE_EVENTS, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+		// Set updated to 1
+		values.put(PoEEvent.TAG_UPDATED, 1);
+		database.insertWithOnConflict(SQLiteHelper.TABLE_EVENTS, null, values,
+				SQLiteDatabase.CONFLICT_REPLACE);
 	}
 
 	public Cursor getAllEvents() {
@@ -52,11 +64,23 @@ public class PoEEventsDataSource {
 		String select = "SELECT * from " + SQLiteHelper.TABLE_EVENTS;
 		return database.rawQuery(select, null);
 	}
-	
-	public void deleteAllEvents() {
+
+	private void deleteAllNonUpdatedEvents() {
 		if (database == null) {
 			open();
 		}
-		database.delete(SQLiteHelper.TABLE_EVENTS, null, null);
+		// Non updated events will have an updated value of 0
+		database.delete(SQLiteHelper.TABLE_EVENTS, PoEEvent.TAG_UPDATED + "=?",
+				new String[] { "0" });
+	}
+
+	private void setAllEventsToNotUpdated() {
+		if (database == null) {
+			open();
+		}
+		// Set all existing events to updated = 0 so they will be cleaned
+		ContentValues values = new ContentValues();
+		values.put(PoEEvent.TAG_UPDATED, 0);
+		database.update(SQLiteHelper.TABLE_EVENTS, values, null, null);
 	}
 }
