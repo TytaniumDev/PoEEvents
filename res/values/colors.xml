@@ -2,5 +2,6 @@
 <resources>
 
     <color name="selected">#AA33B5E5</color>
+    <color name="widget_background_color">#F0FFFFFF</color>
 
 </resources>

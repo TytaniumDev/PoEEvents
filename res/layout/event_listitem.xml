@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="left|center_vertical"
                 android:paddingRight="8dp"
-                android:text="@string/begins"
+                android:text="@string/starts"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <TextView

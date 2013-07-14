@@ -4,5 +4,5 @@
     android:minHeight="72dp"
     android:minWidth="72dp"
     android:resizeMode="horizontal|vertical"
-    android:updatePeriodMillis="60000"
+    android:updatePeriodMillis="3600000"
     android:widgetCategory="home_screen|keyguard" />

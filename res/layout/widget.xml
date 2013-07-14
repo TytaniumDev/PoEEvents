@@ -14,17 +14,6 @@
         android:divider="@android:color/transparent"
         android:dividerHeight="2dp"
         android:gravity="center"
+        android:clickable="false"
         tools:targetApi="11" />
-
-    <TextView
-        android:id="@+id/empty_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/white"
-        android:gravity="center"
-        android:text="@string/no_events"
-        android:textColor="#ffffff"
-        android:textSize="20sp"
-        android:textStyle="bold" />
-
-</LinearLayout>
+</LinearLayout>

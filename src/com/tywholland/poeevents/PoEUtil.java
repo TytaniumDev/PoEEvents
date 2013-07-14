@@ -13,7 +13,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.v4.widget.CursorAdapter;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -23,6 +22,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class PoEUtil {
+	@SuppressLint("SimpleDateFormat")
+	private static SimpleDateFormat mZDateFormat = new SimpleDateFormat(
+			"yyyy-MM-dd'T'HH:mm:ss'Z'");
+	@SuppressLint("SimpleDateFormat")
+	private static SimpleDateFormat mLocalDateFormat = new SimpleDateFormat(
+			"MMMM d, h:mm aa");
 
 	public static CursorAdapter getCursorAdapter(Context context, Cursor cursor) {
 		return new PoECursorAdapter(context, cursor, 0);
@@ -30,10 +35,6 @@ public class PoEUtil {
 
 	@SuppressLint("SimpleDateFormat")
 	private static class PoECursorAdapter extends CursorAdapter {
-		private static SimpleDateFormat mZDateFormat = new SimpleDateFormat(
-				"yyyy-MM-dd'T'HH:mm:ss'Z'");
-		private static SimpleDateFormat mLocalDateFormat = new SimpleDateFormat(
-				"MMMM d, h:mm aa");
 
 		public PoECursorAdapter(Context context, Cursor cursor, int flags) {
 			super(context, cursor, flags);
@@ -63,21 +64,8 @@ public class PoEUtil {
 			eventNameView.setText(eventName);
 
 			// Convert times to local
-			String startTimeText = context.getResources().getString(
-					R.string.error);
-			String endTimeText = context.getResources().getString(
-					R.string.error);
-			try {
-				Date startDate = mZDateFormat.parse(startTime);
-				Date endDate = mZDateFormat.parse(endTime);
-
-				startTimeText = mLocalDateFormat.format(startDate);
-				endTimeText = mLocalDateFormat.format(endDate);
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-			startTimeView.setText(startTimeText);
-			endTimeView.setText(endTimeText);
+			startTimeView.setText(getLocalTimeString(startTime, context));
+			endTimeView.setText(getLocalTimeString(endTime, context));
 
 			// Add forum link on click
 			String forumLink = cursor.getString(cursor
@@ -109,6 +97,18 @@ public class PoEUtil {
 		}
 	}
 
+	private static String getLocalTimeString(String dbTime, Context context) {
+		String localTime = context.getResources().getString(R.string.error);
+		try {
+			Date date = mZDateFormat.parse(dbTime);
+
+			localTime = mLocalDateFormat.format(date);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return localTime;
+	}
+
 	public static void updateWidget(Context context) {
 		AppWidgetManager appWidgetManager = AppWidgetManager
 				.getInstance(context);
@@ -116,7 +116,7 @@ public class PoEUtil {
 				.getAppWidgetIds(new ComponentName(context,
 						WidgetProvider.class));
 		// update each of the app widgets with the remote adapter
-		for (int i = 0; i < appWidgetIds.length; ++i) {
+		for (int i = 0; i < appWidgetIds.length; i++) {
 			appWidgetManager.updateAppWidget(appWidgetIds[i],
 					PoEUtil.getFullRemoteViews(context, appWidgetIds[i]));
 		}
@@ -125,7 +125,6 @@ public class PoEUtil {
 	@SuppressWarnings("deprecation")
 	public static RemoteViews getFullRemoteViews(Context context,
 			int appWidgetId) {
-		Log.d("POE", "in getFullRemoteViews");
 		// Set up the intent that starts the StackViewService, which will
 		// provide the views for this collection.
 		Intent intent = new Intent(context, WidgetService.class);
@@ -140,34 +139,31 @@ public class PoEUtil {
 		// to a RemoteViewsService through the specified intent.
 		// This is how you populate the data.
 		rv.setRemoteAdapter(appWidgetId, R.id.widget_listview, intent);
-
-		// The empty view is displayed when the collection has no items.
-		// It should be in the same layout used to instantiate the
-		// RemoteViews
-		// object above.
-		rv.setEmptyView(R.id.widget_listview, R.id.empty_view);
 		return rv;
 	}
 
 	public static RemoteViews getRemoteView(Context context, Cursor cursor,
 			int position) {
-		Log.d("POE", "in getRemoteView");
 		RemoteViews row = new RemoteViews(context.getPackageName(),
-				R.layout.event_listitem);
+				R.layout.widget_event_listitem);
 		if (cursor.moveToPosition(position)) {
-			row.setTextViewText(R.id.event_name, cursor.getString(cursor
-					.getColumnIndexOrThrow(PoEEvent.TAG_EVENT_NAME)));
+			String eventNameTrimmed = cursor.getString(cursor
+					.getColumnIndexOrThrow(PoEEvent.TAG_EVENT_NAME));
+			eventNameTrimmed = eventNameTrimmed.split("\\(")[0];
+			eventNameTrimmed = eventNameTrimmed.trim();
+			row.setTextViewText(R.id.event_name, eventNameTrimmed);
 
-			row.setTextViewText(R.id.event_start_time, cursor.getString(cursor
-					.getColumnIndexOrThrow(PoEEvent.TAG_EVENT_NAME)));
-			
-			row.setTextViewText(R.id.event_end_time, cursor.getString(cursor
-					.getColumnIndexOrThrow(PoEEvent.TAG_EVENT_NAME)));
-			
-//			row.setOnClickFillInIntent(
-//					R.id.agenda_widget_listview,
-//					ItemDetailsFragmentActivity.createItemDetailsIntent(
-//							mCursor.getInt(IItemsQuery.ITEM_ID), mContext));
+			row.setTextViewText(
+					R.id.event_start_time,
+					getLocalTimeString(cursor.getString(cursor
+							.getColumnIndexOrThrow(PoEEvent.TAG_START_TIME)),
+							context));
+
+			row.setTextViewText(
+					R.id.event_end_time,
+					getLocalTimeString(cursor.getString(cursor
+							.getColumnIndexOrThrow(PoEEvent.TAG_END_TIME)),
+							context));
 		}
 		return row;
 	}

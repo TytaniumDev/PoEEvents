@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Build;
-import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
@@ -42,7 +41,6 @@ class WidgetFactory implements RemoteViewsService.RemoteViewsFactory {
 
 	@Override
 	public RemoteViews getViewAt(int position) {
-		Log.d("POE", "getViewAt " + position);
 		return PoEUtil.getRemoteView(mContext, mCursor, position);
 	}
 
@@ -68,10 +66,9 @@ class WidgetFactory implements RemoteViewsService.RemoteViewsFactory {
 	}
 
 	private void pullData() {
-		Log.d("POE", "in pulldata");
 		PoEEventsDataSource db = new PoEEventsDataSource(mContext);
 		mCursor = db.getAllEvents();
-//		new EventRequestTask(mContext).execute();
+		new EventRequestTask(mContext).execute();
 	}
 
 	@Override
