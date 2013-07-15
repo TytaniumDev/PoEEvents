@@ -29,17 +29,19 @@ public class PoEUtil {
 	private static SimpleDateFormat mLocalDateFormat = new SimpleDateFormat(
 			"MMMM d, h:mm aa");
 
+	static {
+		mZDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+		mLocalDateFormat.setTimeZone(TimeZone.getDefault());
+	}
+
 	public static CursorAdapter getCursorAdapter(Context context, Cursor cursor) {
 		return new PoECursorAdapter(context, cursor, 0);
 	}
 
-	@SuppressLint("SimpleDateFormat")
 	private static class PoECursorAdapter extends CursorAdapter {
 
 		public PoECursorAdapter(Context context, Cursor cursor, int flags) {
 			super(context, cursor, flags);
-			mZDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-			mLocalDateFormat.setTimeZone(TimeZone.getDefault());
 		}
 
 		@Override
