@@ -62,6 +62,7 @@ class WidgetFactory implements RemoteViewsService.RemoteViewsFactory {
 
 	@Override
 	public void onDataSetChanged() {
+		PoEUtil.showProgress(mContext, true);
 		pullData();
 	}
 

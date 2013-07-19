@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.TimeZone;
 
 import android.annotation.SuppressLint;
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
@@ -111,27 +112,29 @@ public class PoEUtil {
 		return localTime;
 	}
 
+	public static void showProgress(Context context, boolean inProgress) {
+		AppWidgetManager appWidgetManager = AppWidgetManager
+				.getInstance(context);
+		RemoteViews remoteViews = new RemoteViews(context.getPackageName(),
+				R.layout.widget);
+		remoteViews.setViewVisibility(R.id.widget_refresh,
+				inProgress ? View.GONE : View.VISIBLE);
+		appWidgetManager.updateAppWidget(new ComponentName(context,
+				WidgetProvider.class), remoteViews);
+	}
+
 	public static void updateWidget(Context context) {
 		AppWidgetManager appWidgetManager = AppWidgetManager
 				.getInstance(context);
-		int[] appWidgetIds = appWidgetManager
-				.getAppWidgetIds(new ComponentName(context,
-						WidgetProvider.class));
 		// update each of the app widgets with the remote adapter
-		for (int i = 0; i < appWidgetIds.length; i++) {
-			appWidgetManager.updateAppWidget(appWidgetIds[i],
-					PoEUtil.getFullRemoteViews(context, appWidgetIds[i]));
-		}
+		appWidgetManager.updateAppWidget(new ComponentName(context,
+				WidgetProvider.class), getFullRemoteViews(context));
 	}
 
-	@SuppressWarnings("deprecation")
-	public static RemoteViews getFullRemoteViews(Context context,
-			int appWidgetId) {
+	public static RemoteViews getFullRemoteViews(Context context) {
 		// Set up the intent that starts the StackViewService, which will
 		// provide the views for this collection.
 		Intent intent = new Intent(context, WidgetService.class);
-		// Add the app widget ID to the intent extras.
-		intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
 		intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
 		// Instantiate the RemoteViews object for the App Widget layout.
 		RemoteViews rv = new RemoteViews(context.getPackageName(),
@@ -140,7 +143,12 @@ public class PoEUtil {
 		// This adapter connects
 		// to a RemoteViewsService through the specified intent.
 		// This is how you populate the data.
-		rv.setRemoteAdapter(appWidgetId, R.id.widget_listview, intent);
+		rv.setRemoteAdapter(R.id.widget_listview, intent);
+		// Set up non-listviews
+		PendingIntent refreshIntent = PendingIntent.getBroadcast(context, 0,
+				intent, 0);
+		rv.setOnClickPendingIntent(R.id.widget_refresh, refreshIntent);
+		rv.setViewVisibility(R.id.widget_refresh, View.VISIBLE);
 		return rv;
 	}
 

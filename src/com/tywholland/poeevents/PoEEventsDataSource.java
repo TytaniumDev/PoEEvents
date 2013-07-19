@@ -61,7 +61,8 @@ public class PoEEventsDataSource {
 		if (database == null) {
 			open();
 		}
-		String select = "SELECT * from " + SQLiteHelper.TABLE_EVENTS;
+		String select = "SELECT * from " + SQLiteHelper.TABLE_EVENTS
+				+ " ORDER BY " + PoEEvent.TAG_START_TIME + " ASC";
 		return database.rawQuery(select, null);
 	}
 

@@ -41,7 +41,9 @@ public class MainActivity extends Activity {
 	private void startEventRequestTask() {
 		if (mRefreshMenuItem != null && mListView != null) {
 			// Everything is created
-			mRefreshMenuItem.setActionView(R.layout.menu_refresh);
+			if (android.os.Build.VERSION.SDK_INT > 8) {
+				mRefreshMenuItem.setActionView(R.layout.menu_refresh);
+			}
 			EventRequestTask task = new EventRequestTask(this, mListView,
 					mRefreshMenuItem);
 			task.execute();

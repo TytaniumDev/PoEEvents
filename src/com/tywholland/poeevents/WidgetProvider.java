@@ -10,6 +10,7 @@ public class WidgetProvider extends AppWidgetProvider {
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager,
 			int[] appWidgetIds) {
 
+		PoEUtil.showProgress(context, true);
 	    new EventRequestTask(context).execute();
 
 		super.onUpdate(context, appWidgetManager, appWidgetIds);
