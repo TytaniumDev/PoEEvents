@@ -11,9 +11,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/transparent"
+        android:clickable="false"
         android:divider="@android:color/transparent"
         android:dividerHeight="2dp"
         android:gravity="center"
-        android:clickable="false"
         tools:targetApi="11" />
-</LinearLayout>
+
+</LinearLayout>

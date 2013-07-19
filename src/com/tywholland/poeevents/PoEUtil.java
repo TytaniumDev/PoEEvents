@@ -114,24 +114,16 @@ public class PoEUtil {
 	public static void updateWidget(Context context) {
 		AppWidgetManager appWidgetManager = AppWidgetManager
 				.getInstance(context);
-		int[] appWidgetIds = appWidgetManager
-				.getAppWidgetIds(new ComponentName(context,
-						WidgetProvider.class));
 		// update each of the app widgets with the remote adapter
-		for (int i = 0; i < appWidgetIds.length; i++) {
-			appWidgetManager.updateAppWidget(appWidgetIds[i],
-					PoEUtil.getFullRemoteViews(context, appWidgetIds[i]));
-		}
+		appWidgetManager.updateAppWidget(new ComponentName(context,
+				WidgetProvider.class), getFullRemoteViews(context));
 	}
 
-	@SuppressWarnings("deprecation")
-	public static RemoteViews getFullRemoteViews(Context context,
-			int appWidgetId) {
+	public static RemoteViews getFullRemoteViews(Context context) {
 		// Set up the intent that starts the StackViewService, which will
 		// provide the views for this collection.
 		Intent intent = new Intent(context, WidgetService.class);
 		// Add the app widget ID to the intent extras.
-		intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
 		intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
 		// Instantiate the RemoteViews object for the App Widget layout.
 		RemoteViews rv = new RemoteViews(context.getPackageName(),
@@ -140,7 +132,7 @@ public class PoEUtil {
 		// This adapter connects
 		// to a RemoteViewsService through the specified intent.
 		// This is how you populate the data.
-		rv.setRemoteAdapter(appWidgetId, R.id.widget_listview, intent);
+		rv.setRemoteAdapter(R.id.widget_listview, intent);
 		return rv;
 	}
 
