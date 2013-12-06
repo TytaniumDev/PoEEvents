@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="selected">#AA33B5E5</color>
+    <color name="selected">#20FFFFFF</color>
     <color name="widget_background_color">#F0FFFFFF</color>
+    <color name="text_color">#303030</color>
 
 </resources>

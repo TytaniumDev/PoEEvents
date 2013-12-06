@@ -6,13 +6,16 @@ import java.util.Date;
 import java.util.TimeZone;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.support.v4.widget.CursorAdapter;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -72,7 +75,7 @@ public class PoEUtil {
 			// Add forum link on click
 			String forumLink = cursor.getString(cursor
 					.getColumnIndexOrThrow(PoEEvent.TAG_WEB_LINK));
-			if (forumLink != null && !forumLink.isEmpty()) {
+			if (!TextUtils.isEmpty(forumLink)) {
 				final Intent forumLinkIntent = new Intent(Intent.ACTION_VIEW,
 						Uri.parse(forumLink));
 				view.setOnClickListener(new OnClickListener() {
@@ -99,11 +102,15 @@ public class PoEUtil {
 		}
 	}
 
+	public static Date parseDbTimeIntoDate(String dbTime)
+			throws ParseException {
+		return mZDateFormat.parse(dbTime);
+	}
+
 	private static String getLocalTimeString(String dbTime, Context context) {
 		String localTime = context.getResources().getString(R.string.error);
 		try {
-			Date date = mZDateFormat.parse(dbTime);
-
+			Date date = parseDbTimeIntoDate(dbTime);
 			localTime = mLocalDateFormat.format(date);
 		} catch (ParseException e) {
 			e.printStackTrace();
@@ -119,6 +126,7 @@ public class PoEUtil {
 				WidgetProvider.class), getFullRemoteViews(context));
 	}
 
+	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 	public static RemoteViews getFullRemoteViews(Context context) {
 		// Set up the intent that starts the StackViewService, which will
 		// provide the views for this collection.

@@ -3,11 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    
-    <ListView 
+
+    <ListView
         android:id="@android:id/list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
     <ProgressBar
         android:id="@android:id/empty"
@@ -15,5 +15,15 @@
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:indeterminate="true" />
+
+    <TextView
+        android:id="@+id/list_empty_text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="@string/no_events"
+        android:textSize="24sp"
+        android:visibility="gone"/>
 
 </LinearLayout>

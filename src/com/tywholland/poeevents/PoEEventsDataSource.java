@@ -1,5 +1,7 @@
 package com.tywholland.poeevents;
 
+import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 
 import android.content.ContentValues;
@@ -36,8 +38,19 @@ public class PoEEventsDataSource {
 	}
 
 	private void insertEvents(List<PoEEvent> events) {
+		Date currentTime = new Date();
 		for (PoEEvent event : events) {
-			insertEvent(event);
+			try {
+				Date eventEndDate = PoEUtil.parseDbTimeIntoDate(event
+						.getEndTime());
+				// Only add events that haven't happened already, sometimes GGG
+				// returns old events
+				if (currentTime.before(eventEndDate)) {
+					insertEvent(event);
+				}
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 

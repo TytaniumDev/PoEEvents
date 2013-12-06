@@ -68,7 +68,16 @@ class WidgetFactory implements RemoteViewsService.RemoteViewsFactory {
 	private void pullData() {
 		PoEEventsDataSource db = new PoEEventsDataSource(mContext);
 		mCursor = db.getAllEvents();
-		new EventRequestTask(mContext).execute();
+		new EventRequestTask(mContext,
+				new EventRequestTask.RequestCompleteCallback() {
+					@Override
+					public void onEventRequestTaskSuccess() {
+					}
+
+					@Override
+					public void onEventRequestTaskFail() {
+					}
+				}).execute();
 	}
 
 	@Override

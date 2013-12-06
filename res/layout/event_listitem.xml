@@ -2,17 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@drawable/list_selector"
-    android:padding="8dp">
+    android:orientation="vertical"
+    android:padding="8dp" >
 
     <TextView
         android:id="@+id/event_name"
         android:layout_width="match_parent"
-        android:ellipsize="end"
         android:layout_height="wrap_content"
+        android:ellipsize="end"
         android:text="@string/event_name"
         android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/text_color"
         android:textStyle="bold" />
 
     <TableLayout
@@ -30,7 +31,8 @@
                 android:gravity="left|center_vertical"
                 android:paddingRight="8dp"
                 android:text="@string/starts"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/text_color" />
 
             <TextView
                 android:id="@+id/event_start_time"
@@ -38,7 +40,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="left|center_vertical"
                 android:text="@string/error"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/text_color" />
         </TableRow>
 
         <TableRow
@@ -52,7 +55,8 @@
                 android:gravity="left|center_vertical"
                 android:paddingRight="8dp"
                 android:text="@string/ends"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/text_color" />
 
             <TextView
                 android:id="@+id/event_end_time"
@@ -60,7 +64,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="left|center_vertical"
                 android:text="@string/error"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/text_color" />
         </TableRow>
     </TableLayout>
 

@@ -10,7 +10,16 @@ public class WidgetProvider extends AppWidgetProvider {
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager,
 			int[] appWidgetIds) {
 
-	    new EventRequestTask(context).execute();
+		new EventRequestTask(context,
+				new EventRequestTask.RequestCompleteCallback() {
+					@Override
+					public void onEventRequestTaskSuccess() {
+					}
+
+					@Override
+					public void onEventRequestTaskFail() {
+					}
+				}).execute();
 
 		super.onUpdate(context, appWidgetManager, appWidgetIds);
 	}
