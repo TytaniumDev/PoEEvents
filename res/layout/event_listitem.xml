@@ -1,29 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/list_selector"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:padding="8dp" >
 
     <TextView
         android:id="@+id/event_name"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:maxLines="1"
         android:ellipsize="end"
         android:text="@string/event_name"
         android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/text_link_color"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/event_short_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/event_name"
+        android:ellipsize="end"
+        android:paddingLeft="8dp"
+        android:text=""
+        android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@color/text_color"
         android:textStyle="bold" />
 
     <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/event_short_name"
+        android:paddingLeft="8dp" >
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="8dp" >
+            android:layout_height="wrap_content" >
 
             <TextView
                 android:layout_width="wrap_content"
@@ -46,8 +63,7 @@
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="8dp" >
+            android:layout_height="wrap_content" >
 
             <TextView
                 android:layout_width="wrap_content"
@@ -69,4 +85,12 @@
         </TableRow>
     </TableLayout>
 
-</LinearLayout>
+    <CheckBox
+        android:id="@+id/event_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:padding="4dp" />
+
+</RelativeLayout>

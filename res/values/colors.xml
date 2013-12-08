@@ -4,5 +4,6 @@
     <color name="selected">#20FFFFFF</color>
     <color name="widget_background_color">#F0FFFFFF</color>
     <color name="text_color">#303030</color>
+    <color name="text_link_color">#CC0000</color>
 
 </resources>

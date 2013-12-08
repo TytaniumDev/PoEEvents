@@ -10,7 +10,6 @@ import android.os.AsyncTask;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.tywholland.poeevents.JSONParser.BadStatusException;
 
 public class EventRequestTask extends AsyncTask<Object, String, List<PoEEvent>> {
 	private Context context;
@@ -35,7 +34,7 @@ public class EventRequestTask extends AsyncTask<Object, String, List<PoEEvent>> 
 			if (events != null) {
 				// Insert into database
 				PoEEventsDataSource db = new PoEEventsDataSource(context);
-				db.insertEventsAndClean(events);
+				db.insertEventsAndClean(events, context);
 				db.close();
 			}
 		} catch (Exception e) {

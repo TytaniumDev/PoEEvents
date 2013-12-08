@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.tywholland.poeevents"
-    android:versionCode="5"
-    android:versionName="1.5" >
+    android:versionCode="6"
+    android:versionName="1.6" >
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -35,7 +35,16 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_provider" />
         </receiver>
+        <receiver android:name="com.tywholland.poeevents.EventAlarmSetter" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name="com.tywholland.poeevents.EventAlarmReceiver" >
+        </receiver>
 
+        <service android:name="com.tywholland.poeevents.EventAlarmService" >
+        </service>
         <service
             android:name="com.tywholland.poeevents.WidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />

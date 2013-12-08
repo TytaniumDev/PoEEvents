@@ -27,8 +27,7 @@ public class MainActivity extends Activity {
 		mListView.setEmptyView(mListLoadingSpinner);
 
 		mDB = new PoEEventsDataSource(this);
-		mListView
-				.setAdapter(PoEUtil.getCursorAdapter(this, mDB.getAllEvents()));
+		mListView.setAdapter(new PoECursorAdapter(this, mDB.getAllEvents(), 0));
 		startEventRequestTask();
 	}
 
@@ -57,8 +56,8 @@ public class MainActivity extends Activity {
 					new EventRequestTask.RequestCompleteCallback() {
 						@Override
 						public void onEventRequestTaskSuccess() {
-							mListView.setAdapter(PoEUtil.getCursorAdapter(
-									context, mDB.getAllEvents()));
+							mListView.setAdapter(new PoECursorAdapter(context,
+									mDB.getAllEvents(), 0));
 							stopLoadingSpinners();
 						}
 

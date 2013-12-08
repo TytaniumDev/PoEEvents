@@ -12,5 +12,9 @@
     <string name="no_forum_link">"No forum link yet"</string>
     <string name="refresh">Refresh</string>
     <string name="no_events">No Events</string>
+    <string name="competitive">Competitive</string>
+    <string name="signature">Signature</string>
+    <string name="fun">Fun</string>
+    <string name="starts_at">Starts at %1$s</string>
 
 </resources>
