@@ -9,7 +9,6 @@ import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 public class PoEEventsDataSource {
 	// Database fields
@@ -59,14 +58,14 @@ public class PoEEventsDataSource {
 		values.put(PoEEvent.TAG_EVENT_NAME, event.getName());
 		// Parse out normal name and short name
 		String[] eventName = event.getName().split("\\(");
-		// Parse into Signature, Competitive, or Fun
-		String classification = PoEUtil
-				.getClassification(
-						eventName[1]
-								.charAt(PoEEvent.CLASSIFICATION_CHAR_LOCATION)
-								+ "", res);
+		if (eventName.length > 1) {
+			// Parse into Signature, Competitive, or Fun
+			String classification = PoEUtil.getClassification(
+					eventName[1].charAt(PoEEvent.CLASSIFICATION_CHAR_LOCATION)
+							+ "", res);
+			values.put(PoEEvent.TAG_CLASSIFICATION, classification);
+		}
 		values.put(PoEEvent.TAG_NORMAL_NAME, eventName[0].trim());
-		values.put(PoEEvent.TAG_CLASSIFICATION, classification);
 		values.put(PoEEvent.TAG_WEB_LINK, event.getWebLink());
 		values.put(PoEEvent.TAG_REGISTER_TIME, event.getRegisterTime());
 		values.put(PoEEvent.TAG_START_TIME, event.getStartTime());
@@ -102,7 +101,6 @@ public class PoEEventsDataSource {
 		values.put(PoEEvent.TAG_ALERT, alert ? 1 : 0);
 		database.update(SQLiteHelper.TABLE_EVENTS, values,
 				PoEEvent.TAG_EVENT_NAME + "=?", new String[] { name });
-		Log.d("PoEEvents", "updated db, "+ name + " alert is " + (alert ? 1 : 0));
 	}
 
 	private void setEventToUpdated(PoEEvent event) {
@@ -113,7 +111,8 @@ public class PoEEventsDataSource {
 		ContentValues values = new ContentValues();
 		values.put(PoEEvent.TAG_UPDATED, 1);
 		database.update(SQLiteHelper.TABLE_EVENTS, values,
-				PoEEvent.TAG_EVENT_NAME + "=?", new String[] { event.getName() });
+				PoEEvent.TAG_EVENT_NAME + "=?",
+				new String[] { event.getName() });
 	}
 
 	private void setAllEventsToNotUpdated() {

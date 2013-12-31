@@ -7,7 +7,6 @@ import android.graphics.Paint;
 import android.net.Uri;
 import android.support.v4.widget.CursorAdapter;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -38,7 +37,7 @@ public class PoECursorAdapter extends CursorAdapter {
 				.getColumnIndexOrThrow(PoEEvent.TAG_REGISTER_TIME));
 		final int alert = cursor.getInt(cursor
 				.getColumnIndexOrThrow(PoEEvent.TAG_ALERT));
-
+		
 		// Get views
 		TextView eventNameView = (TextView) view.findViewById(R.id.event_name);
 		TextView eventShortNameView = (TextView) view
@@ -111,7 +110,6 @@ public class PoECursorAdapter extends CursorAdapter {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				Log.d("PoEEvents", "updating db with alert " + enabled);
 				new PoEEventsDataSource(context).updateAlertOnEvent(eventName,
 						enabled);
 			}
