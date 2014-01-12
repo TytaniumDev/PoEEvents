@@ -90,7 +90,7 @@ public class PoECursorAdapter extends CursorAdapter {
 			public void onClick(View v) {
 				checkBox.toggle();
 				handleEventAlertToggle(eventName, normalName, startTime,
-						webLink, regTime, checkBox.isChecked(), context);
+						webLink, regTime, checkBox.isChecked(), context, cursor);
 			}
 		});
 		checkBox.setOnClickListener(new OnClickListener() {
@@ -98,20 +98,21 @@ public class PoECursorAdapter extends CursorAdapter {
 			@Override
 			public void onClick(View v) {
 				handleEventAlertToggle(eventName, normalName, startTime,
-						webLink, regTime, ((CheckBox) v).isChecked(), context);
+						webLink, regTime, ((CheckBox) v).isChecked(), context, cursor);
 			}
 		});
 	}
 
 	private void handleEventAlertToggle(final String eventName,
 			String normalName, String startTime, String webLink,
-			String regTime, final boolean enabled, final Context context) {
+			String regTime, final boolean enabled, final Context context, final Cursor cursor) {
 		// Update database
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
 				new PoEEventsDataSource(context).updateAlertOnEvent(eventName,
 						enabled);
+				cursor.requery();
 			}
 		}).start();
 		// Set or cancel notification alarm

@@ -73,6 +73,7 @@ public class EventAlarmService extends IntentService {
 	}
 
 	private void executeCreate() {
+		Log.d("PoEEvents", "Creating all alarms alarm");
 		Cursor cursor = getAllEventItemsCursor();
 		if (cursor.moveToFirst()) {
 			do {
@@ -124,7 +125,11 @@ public class EventAlarmService extends IntentService {
 			String regTime) {
 		// Make sure item isn't in the past
 		Date now = new Date();
+		Log.d("poeevents", "now is " + now.getTime() + " regtime is " + PoEUtil.parseDbTimeIntoDate(regTime)
+				.getTime());
 		if (now.before(PoEUtil.parseDbTimeIntoDate(startTime))) {
+			Log.d("poeevents", "trying to set alarm");
+			
 			long notificationTime = PoEUtil.parseDbTimeIntoDate(regTime)
 					.getTime();
 			mAlarmManager.set(AlarmManager.RTC_WAKEUP, notificationTime,
