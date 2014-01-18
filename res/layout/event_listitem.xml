@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
+    android:background="@drawable/transparent_button_background_selector"
     android:padding="8dp" >
 
     <TextView

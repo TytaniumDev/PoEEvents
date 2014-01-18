@@ -5,5 +5,11 @@
     <color name="widget_background_color">#F0FFFFFF</color>
     <color name="text_color">#303030</color>
     <color name="text_link_color">#CC0000</color>
+    
+    <!-- Transparent button colors -->
+    <color name="transparent_button_disabled_color">#B2FFFFFF</color>
+    <color name="transparent_button_color">#00000000</color>
+    <color name="transparent_button_pressed_color">#20000000</color>
+    
 
 </resources>

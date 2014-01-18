@@ -74,7 +74,6 @@ public class PoEEventsDataSource {
 		long dbreturn = database.insertWithOnConflict(SQLiteHelper.TABLE_EVENTS, null, values,
 				SQLiteDatabase.CONFLICT_IGNORE);
 		if(dbreturn < 0) {
-			Log.d("DDD", "log yo"); 
 			//On conflict, still update web link
 			database.update(SQLiteHelper.TABLE_EVENTS, values, PoEEvent.TAG_EVENT_NAME + "=?", new String[]{event.getName()});
 		}
